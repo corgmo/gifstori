@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gifstori</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Patrick+Hand' type='text/css' media='all' />
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Life+Savers' type='text/css' media='all' />
+    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <div id="page" class="container-fluid home">
+        <header class="site-header row">
+            <div class="col-12">
+                <div class="site-branding">
+                    <h1 class="site-title">
+                        <a href="/gifstori" rel="home">
+                            <div class="site-name"><?php bloginfo( 'name' ); ?></div>
+                            <img class="logo" src="img/logo.png" alt="gifstori logo">
+                        </a>
+                    </h1>
+                </div>
+            </div>
+        </header>
+        <main class="row pb-5" id="content">
+
+            <div class="create container col-12">
+
+                <div class="story container"></div>
+
+                <form class="text_container">
+
+                    <textarea class="text_lines" placeholder="Add a few lines to get started..."></textarea>
+
+                    <button class="save_text_button" href="#">Add text</button>
+
+                </form>
+
+                <form class="story-container">
+
+                    <div id="giphy_search_container">
+                        <input id="giphy_search" type="text" name="" placeholder="Now search for a GIF...">
+                        <button class="giphy_search_button" type="">Search</button>
+                    </div>
+
+                </form>
+
+                <div id="share">
+                    All done? Add a title then hit create!
+                    <div class="set_title">
+                        <input type="text" id="gifstori_title" name="gifstori_title"
+                            placeholder="Give your Gifstori a title">
+                        <a href="#" id="create_gifstori">Create <img src="img/white_logo.svg" alt"gifstori"> <i
+                                class="fa fa-spinner fa-spin"></i></a>
+                    </div>
+                </div>
+
+                <div class="need_inspiration">
+                    Need inspiration? Try these examples: <a href="share/?id=593d277a09019">Hamlet</a>, <a
+                        href="share/?id=593d290ec2c70">Pussy&nbsp;Cat</a>.
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer id="colophon" class="site-footer row" role="contentinfo">
+            <div class="site-info col-12 text-center">
+                <div class="powered_by">
+                    <img src="img/powered-by-giphy.png" alt="Powered by Giphy">
+                </div>
+                <div class="addthis_inline_share_toolbox" data-url="https://www.gifstori.com/"></div>
+            </div><!-- .site-info -->
+        </footer>
+
+        <script type="text/javascript"
+            src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-593d2ed53950871b"></script>
+        <script type="text/javascript">
+            var addthis_config = addthis_config || {};
+            addthis_config.data_track_clickback = false;
+        </script>
+
+    </div>
+
+    <script>
+
+        jQuery(function ($) {
+
+            // Create the gifstori
+            $('#create_gifstori').on('click', function (e) {
+
+                e.preventDefault();
+
+                // Get title
+                gifstori_title = $('#gifstori_title').val();
+
+                // Show user something is happening
+                $(this).addClass('ajax_spinner');
+                $('form.text_container').fadeOut();
+
+                // Store data in the wp database via ajax
+                $.ajax({
+
+                    type: "POST",
+                    url: "<?php echo admin_url('admin-ajax.php') ?>",
+                    data: {
+                        'action': 'gifstori_add_data',
+                        'unique_url': '<?php echo $unique_url; ?>',
+                        'gifstori_object': JSON.stringify(images_and_text),
+                        'gifstori_title': gifstori_title,
+                        'security': '<?php echo $ajax_nonce; ?>'
+                    },
+                    success: function (data) {
+                        // Go to new page
+                    }
+
+                });
+
+                return false;
+
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
