@@ -5,9 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gifstori</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/meyer-reset.css">
+    <link rel="stylesheet" href="css/pure-min.css">
+    <link rel="stylesheet" href="css/grids-responsive.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Patrick+Hand' type='text/css' media='all' />
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Life+Savers' type='text/css' media='all' />
     <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
@@ -29,80 +32,75 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 
-<body>
-    <div id="page" class="container-fluid home">
-        <header class="site-header row">
-            <div class="col-12">
-                <div class="site-branding">
-                    <h1 class="site-title">
-                        <a href="/gifstori" rel="home">
-                            <div class="site-name"><?php bloginfo( 'name' ); ?></div>
-                            <img class="logo" src="img/logo.png" alt="gifstori logo">
-                        </a>
-                    </h1>
-                </div>
-            </div>
+<body class="home">
+    <div id="page" class="site">
+
+        <header id="masthead" class="site-header" role="banner">
+            <div class="site-branding">
+                <h1 class="site-title">
+                    <a href="/gifstori" rel="home">
+                        <img class="logo" src="img/logo.png" alt="gifstori logo">
+                    </a>
+                </h1>
+            </div><!-- .site-branding -->
         </header>
-        <main class="row pb-5" id="content">
 
-            <div class="create container col-12">
+        <div id="content" class="site-content">
+            <div id="primary" class="content-area front_page pure-g">
+                <div class="create container  pure-u-5-5">
 
-                <div class="story container"></div>
+                    <div class="story container"></div>
 
-                <form class="text_container">
+                    <form class="text_container">
 
-                    <textarea class="text_lines" placeholder="Add a few lines to get started..."></textarea>
+                        <textarea class="text_lines" placeholder="Add a few lines to get started..."></textarea>
 
-                    <button class="save_text_button" href="#">Add text</button>
+                        <button class="save_text_button" href="#">Add text</button>
 
-                </form>
+                    </form>
 
-                <form class="story-container">
+                    <form class="story-container">
 
-                    <div id="giphy_search_container">
-                        <input id="giphy_search" type="text" name="" placeholder="Now search for a GIF...">
-                        <button class="giphy_search_button" type="">Search</button>
+                        <div id="giphy_search_container">
+                            <input id="giphy_search" type="text" name="" placeholder="Now search for a GIF...">
+                            <button class="giphy_search_button" type="">Search</button>
+                        </div>
+
+                    </form>
+
+                    <div id="share">
+                        All done? Add a title then hit create!
+                        <div class="set_title">
+                            <input type="text" id="gifstori_title" name="gifstori_title"
+                                placeholder="Give your Gifstori a title">
+                            <a href="#" id="create_gifstori">Create <img src="img/white_logo.svg" alt"gifstori">
+                                <i class="fa fa-spinner fa-spin"></i></a>
+                        </div>
                     </div>
 
-                </form>
-
-                <div id="share">
-                    All done? Add a title then hit create!
-                    <div class="set_title">
-                        <input type="text" id="gifstori_title" name="gifstori_title"
-                            placeholder="Give your Gifstori a title">
-                        <a href="#" id="create_gifstori">Create <img src="img/white_logo.svg" alt"gifstori"> <i
-                                class="fa fa-spinner fa-spin"></i></a>
+                    <div class="need_inspiration">
+                        Need inspiration? Try these examples: <a
+                            href="<?php echo get_site_url(); ?>/share/?id=593d277a09019">Hamlet</a>, <a
+                            href="<?php echo get_site_url(); ?>/share/?id=593d290ec2c70">Pussy&nbsp;Cat</a>.
                     </div>
                 </div>
+            </div><!-- #primary -->
 
-                <div class="need_inspiration">
-                    Need inspiration? Try these examples: <a href="share/?id=593d277a09019">Hamlet</a>, <a
-                        href="share/?id=593d290ec2c70">Pussy&nbsp;Cat</a>.
-                </div>
+        </div><!-- #content -->
 
-            </div>
-
-        </main>
-
-        <footer id="colophon" class="site-footer row" role="contentinfo">
-            <div class="site-info col-12 text-center">
+        <footer id="colophon" class="site-footer" role="contentinfo">
+            <div class="site-info">
                 <div class="powered_by">
                     <img src="img/powered-by-giphy.png" alt="Powered by Giphy">
                 </div>
-                <div class="addthis_inline_share_toolbox" data-url="https://www.gifstori.com/"></div>
+                <div class="addthis_inline_share_toolbox" data-url="https://corgmo/github.io/gifstori/"></div>
             </div><!-- .site-info -->
-        </footer>
+        </footer><!-- #colophon -->
+    </div><!-- #page -->
 
-        <script type="text/javascript"
-            src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-593d2ed53950871b"></script>
-        <script type="text/javascript">
-            var addthis_config = addthis_config || {};
-            addthis_config.data_track_clickback = false;
-        </script>
 
-    </div>
-
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
     <script>
 
         jQuery(function ($) {
@@ -142,6 +140,15 @@
             });
         });
 
+    </script>
+
+    <script src="js/searchGiphy.jquery.js"></script>
+    <script src="js/gifstori.js"></script>
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-593d2ed53950871b"></script>
+    <script type="text/javascript">
+        var addthis_config = addthis_config || {};
+        addthis_config.data_track_clickback = false;
     </script>
 
 </body>
