@@ -98,6 +98,41 @@
         </footer><!-- #colophon -->
     </div><!-- #page -->
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+    <script>
+
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyALz6zpFWArk0GoxWiz0o74T-9b59qEq3w",
+            authDomain: "corgmo-342e9.firebaseapp.com",
+            databaseURL: "https://corgmo-342e9.firebaseio.com",
+            projectId: "corgmo-342e9",
+            storageBucket: "corgmo-342e9.appspot.com",
+            messagingSenderId: "570647032468"
+        };
+
+        firebase.initializeApp(config);
+
+        // Get a reference to the database service
+        var database = firebase.database();
+
+        // Function to add Gifstori to database
+        function writeGifstoriData(gifstori_object, gifstori_title, unique_url) {
+            firebase.database().ref('gifstories/' + unique_url).set({
+                gifstori_object: gifstori_object,
+                gifstori_title: gifstori_title
+            }, function (error) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    window.location.href = '/share/?id=' + $unique_url;
+                }
+            });
+        }
+
+
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"
         integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
@@ -111,29 +146,17 @@
                 e.preventDefault();
 
                 // Get title
-                gifstori_title = $('#gifstori_title').val();
+                var gifstori_title = $('#gifstori_title').val();
 
                 // Show user something is happening
                 $(this).addClass('ajax_spinner');
                 $('form.text_container').fadeOut();
 
-                // Store data in the wp database via ajax
-                $.ajax({
+                // Store data in the database
+                var gifstori_object = JSON.stringify(images_and_text);
+                var unique_url = 'gifstori' + Math.floor(Math.random() * 100000) + 1;
 
-                    type: "POST",
-                    url: "<?php echo admin_url('admin-ajax.php') ?>",
-                    data: {
-                        'action': 'gifstori_add_data',
-                        'unique_url': '<?php echo $unique_url; ?>',
-                        'gifstori_object': JSON.stringify(images_and_text),
-                        'gifstori_title': gifstori_title,
-                        'security': '<?php echo $ajax_nonce; ?>'
-                    },
-                    success: function (data) {
-                        // Go to new page
-                    }
-
-                });
+                writeGifstoriData(gifstori_object, gifstori_title, unique_url);
 
                 return false;
 
