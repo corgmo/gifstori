@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gifstori</title>
-
     <link rel="stylesheet" href="css/meyer-reset.css">
     <link rel="stylesheet" href="css/pure-min.css">
     <link rel="stylesheet" href="css/grids-responsive.css">
@@ -13,6 +12,7 @@
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Patrick+Hand' type='text/css' media='all' />
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Life+Savers' type='text/css' media='all' />
+    <link rel="stylesheet" href="jquery.bxslider/jquery.bxslider.min.css">
     <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
@@ -32,7 +32,7 @@
     <meta name="theme-color" content="#ffffff">
 </head>
 
-<body class="home">
+<body>
     <div id="page" class="site">
 
         <header id="masthead" class="site-header" role="banner">
@@ -46,45 +46,45 @@
         </header>
 
         <div id="content" class="site-content">
-            <div id="primary" class="content-area front_page pure-g">
-                <div class="create container  pure-u-5-5">
-
-                    <div class="story container"></div>
-
-                    <form class="text_container">
-
-                        <textarea class="text_lines" placeholder="Add a few lines to get started..."></textarea>
-
-                        <button class="save_text_button" href="#">Add text</button>
-
-                    </form>
-
-                    <form class="story-container">
-
-                        <div id="giphy_search_container">
-                            <input id="giphy_search" type="text" name="" placeholder="Now search for a GIF...">
-                            <button class="giphy_search_button" type="">Search</button>
+            <div id="primary" class="content-area share_page">
+                <main id="main" class="site-main" role="main">
+                    <div class="share_wrapper">
+                        <div class="share_title_wrapper pure-g">
+                            <div class="share_title pure-u-5-5">
+                                <h1>
+                                    {{ gifstoriTitle }}
+                                </h1>
+                            </div>
                         </div>
 
-                    </form>
+                        <div class="share_story_wrapper">
+                            <div class="pure-g">
 
-                    <div id="share">
-                        All done? Add a title then hit create!
-                        <div class="set_title">
-                            <input type="text" id="gifstori_title" name="gifstori_title"
-                                placeholder="Give your Gifstori a title">
-                            <a href="#" id="create_gifstori">Create <img src="img/white_logo.svg" alt"gifstori">
-                                <i class="fa fa-spinner fa-spin"></i></a>
+                                <div class="pure-u-5-5">
+                                    <div class="bxslider">
+                                        <div class="pure-g" v-for="row in gifstoriObject">
+                                            <li class="pure-u-5-5">
+                                                <img :src="row.image"><br>
+                                                {{ row.text }}
+                                            </li>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="need_inspiration">
-                        Need inspiration? Try these examples: <a href="./share.html?id=gifstori168361">Hamlet</a>, <a
-                            href="./share.html?id=gifstori214181">Pussy&nbsp;Cat</a>.
+                    <div class="pure-g">
+                        <div class="pure-u-5-5">
+                            <a id="create" href="./">
+                                Create your own <img src="img/white_logo.svg" alt="gifstori">
+                            </a>
+                        </div>
                     </div>
-                </div>
+
+                </main>
             </div><!-- #primary -->
-
         </div><!-- #content -->
 
         <footer id="colophon" class="site-footer" role="contentinfo">
@@ -92,7 +92,8 @@
                 <div class="powered_by">
                     <img src="img/powered-by-giphy.png" alt="Powered by Giphy">
                 </div>
-                <div class="addthis_inline_share_toolbox" data-url="https://corgmo/github.io/gifstori/"></div>
+                <div class="addthis_inline_share_toolbox" data-url="https://corgmo/github.io/gifstori/">
+                </div>
             </div><!-- .site-info -->
         </footer><!-- #colophon -->
     </div><!-- #page -->
@@ -117,61 +118,65 @@
         // Get a reference to the database service
         var database = firebase.database();
 
-        // Add Gifstori to database
-        function writeGifstoriData(gifstori_object, gifstori_title, unique_url) {
-            firebase.database().ref('gifstories/' + unique_url).set({
-                gifstori_object: gifstori_object,
-                gifstori_title: gifstori_title
-            }, function (error) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    window.location.href = '/share.html?id=' + unique_url;
-                }
-            });
-        }
-
-
     </script>
 
     <script src="https://code.jquery.com/jquery-3.4.0.min.js"
         integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-    <script>
-
-        jQuery(function ($) {
-
-            // Create the gifstori
-            $('#create_gifstori').on('click', function (e) {
-
-                e.preventDefault();
-
-                // Get title
-                var gifstori_title = $('#gifstori_title').val();
-
-                // Show user something is happening
-                $(this).addClass('ajax_spinner');
-                $('form.text_container').fadeOut();
-
-                // Store data in the database
-                var gifstori_object = JSON.stringify(images_and_text);
-                var unique_url = 'gifstori' + Math.floor(Math.random() * 100000) + 1;
-
-                writeGifstoriData(gifstori_object, gifstori_title, unique_url);
-
-                return false;
-
-            });
-        });
-
-    </script>
-
     <script src="js/searchGiphy.jquery.js"></script>
     <script src="js/gifstori.js"></script>
+
+    <script src="jquery.bxslider/jquery.bxslider.min.js"></script>
 
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-593d2ed53950871b"></script>
     <script type="text/javascript">
         var addthis_config = addthis_config || {};
         addthis_config.data_track_clickback = false;
+
+        var addthis_share = addthis_share || {}
+        addthis_share = {
+            passthrough: {
+                twitter: {
+                    text: "Check out this Gifstori!",
+                    hashtags: "gifstori,GIPHY"
+                }
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#page',
+            data: function () {
+                return {
+                    gifstoriTitle: '',
+                    gifstoriObject: ''
+                };
+            },
+            mounted() {
+                var self = this;
+                var urlParams = new URLSearchParams(window.location.search);
+                var unique_url = urlParams.get('id');
+                firebase.database().ref('gifstories/' + unique_url).once('value').then(function (data) {
+                    self.gifstoriTitle = data.val().gifstori_title;
+                    self.gifstoriObject = JSON.parse(data.val().gifstori_object);
+                    console.log(self.gifstoriObject);
+                    jQuery(document).ready(function ($) {
+                        $('.bxslider').bxSlider({
+                            adaptiveHeight: true,
+                            infiniteLoop: false,
+                            hideControlOnEnd: true,
+                            default: true,
+                            easing: 'ease',
+                            pager: false,
+                            prevText: '<i class="bx-custom-previous fa fa-chevron-circle-left"></i>',
+                            nextText: '<i class="bx-custom-next fa fa-chevron-circle-right"></i>'
+                        });
+                    })
+
+                });
+            }
+        })
     </script>
 
 </body>
