@@ -65,7 +65,7 @@
                                         <div class="pure-g" v-for="row in gifstoriObject">
                                             <li class="pure-u-5-5">
                                                 <img :src="row.image"><br>
-                                                {{ row.text }}
+                                                <span v-cloak>{{ row.text }}</span>
                                             </li>
                                         </div>
 
