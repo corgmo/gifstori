@@ -140,7 +140,6 @@
                 firebase.database().ref('gifstories/' + unique_url).once('value').then(function (data) {
                     self.gifstoriTitle = data.val().gifstori_title;
                     self.gifstoriObject = JSON.parse(data.val().gifstori_object);
-                    console.log(self.gifstoriObject);
                     jQuery(document).ready(function ($) {
                         $('.bxslider').bxSlider({
                             adaptiveHeight: true,
@@ -154,10 +153,10 @@
                         });
                     })
 
-                });
+                    // Update document title
+                    document.title = this.gifstoriTitle ? this.gifstoriTitle + ' - Gifstori' : 'Gifstori';
 
-                // Update document title
-                document.title = self.gifstoriTitle + ' - Gifstori';
+                });
             }
         })
     </script>
