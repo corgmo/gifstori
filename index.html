@@ -155,7 +155,7 @@
                 // Store data in the database
                 var gifstori_object = JSON.stringify(images_and_text);
                 var unique_url = 'gifstori' + Math.floor(Math.random() * 100000) + 1;
-                var gifstori_date = new Date();
+                var gifstori_date = Date();
 
                 writeGifstoriData(gifstori_object, gifstori_title, unique_url, gifstori_date);
 
