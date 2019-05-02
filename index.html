@@ -117,10 +117,11 @@
         var database = firebase.database();
 
         // Add Gifstori to database
-        function writeGifstoriData(gifstori_object, gifstori_title, unique_url) {
+        function writeGifstoriData(gifstori_object, gifstori_title, unique_url, gifstori_date) {
             firebase.database().ref('gifstories/' + unique_url).set({
                 gifstori_object: gifstori_object,
-                gifstori_title: gifstori_title
+                gifstori_title: gifstori_title,
+                gifstori_date: gifstori_date
             }, function (error) {
                 if (error) {
                     console.log(error);
@@ -154,8 +155,9 @@
                 // Store data in the database
                 var gifstori_object = JSON.stringify(images_and_text);
                 var unique_url = 'gifstori' + Math.floor(Math.random() * 100000) + 1;
+                var gifstori_date = new Date();
 
-                writeGifstoriData(gifstori_object, gifstori_title, unique_url);
+                writeGifstoriData(gifstori_object, gifstori_title, unique_url, gifstori_date);
 
                 return false;
 
