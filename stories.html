@@ -77,11 +77,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(gifstori, index) in gifstories">
-                                        <td v-cloak>{{ index }}</td>
+                                    <tr v-for="(gifstori, name, index) in gifstories" v-bind:key="index">
+                                        <td v-cloak>{{ index + 1 }}</td>
                                         <td v-cloak>{{ gifstori.gifstori_title || '-- No title --' }}</td>
                                         <td v-cloak>
-                                            <a :href="'share.html?id=' + index">{{index}}</a>
+                                            <a :href="'share.html?id=' + name">{{name}}</a>
                                         </td>
                                         <td v-cloak>{{ gifstori.gifstori_date }}</td>
                                     </tr>
