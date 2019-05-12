@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gifstori</title>
+    <link rel="stylesheet" href="css/meyer-reset.css">
+    <link rel="stylesheet" href="css/pure-min.css">
+    <link rel="stylesheet" href="css/grids-responsive.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Patrick+Hand' type='text/css' media='all' />
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Life+Savers' type='text/css' media='all' />
+    <link rel="stylesheet" href="jquery.bxslider/jquery.bxslider.min.css">
+    <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        table {
+            text-align: left;
+            font-size: 12px;
+        }
+
+        table th {
+            padding: 5px;
+        }
+
+        table td {
+            border: 1px solid rgb(167, 167, 167);
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="page" class="site">
+
+        <header id="masthead" class="site-header" role="banner">
+            <div class="site-branding">
+                <h1 class="site-title">
+                    <a href="./" rel="home">
+                        <img class="logo" src="img/logo.png" alt="gifstori logo">
+                    </a>
+                </h1>
+            </div><!-- .site-branding -->
+        </header>
+
+        <div id="content" class="site-content">
+            <div id="primary" class="content-area share_page">
+                <main id="main" class="site-main" role="main">
+
+                    <div class="pure-g">
+
+                        <div class="pure-u-5-5">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Title</th>
+                                        <th>Link</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(gifstori, index) in gifstories">
+                                        <td v-cloak>{{ index }}</td>
+                                        <td v-cloak>{{ gifstori.gifstori_title || '-- No title --' }}</td>
+                                        <td v-cloak>
+                                            <a :href="'share.html?id=' + index">{{index}}</a>
+                                        </td>
+                                        <td v-cloak>{{ gifstori.gifstori_date }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="pure-g">
+                        <div class="pure-u-5-5">
+                            <a id="create" href="./">
+                                Create your own <img src="img/white_logo.svg" alt="gifstori">
+                            </a>
+                        </div>
+                    </div>
+
+                </main>
+            </div><!-- #primary -->
+        </div><!-- #content -->
+
+        <footer id="colophon" class="site-footer" role="contentinfo">
+            <div class="site-info">
+                <div class="powered_by">
+                    <img src="img/powered-by-giphy.png" alt="Powered by Giphy">
+                </div>
+            </div><!-- .site-info -->
+        </footer><!-- #colophon -->
+    </div><!-- #page -->
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-database.js"></script>
+    <script>
+
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyALz6zpFWArk0GoxWiz0o74T-9b59qEq3w",
+            authDomain: "corgmo-342e9.firebaseapp.com",
+            databaseURL: "https://corgmo-342e9.firebaseio.com",
+            projectId: "corgmo-342e9",
+            storageBucket: "corgmo-342e9.appspot.com",
+            messagingSenderId: "570647032468"
+        };
+
+        firebase.initializeApp(config);
+
+        // Get a reference to the database service
+        var database = firebase.database();
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#page',
+            data: function () {
+                return {
+                    gifstories: ''
+                };
+            },
+            mounted() {
+                var self = this;
+                firebase.database().ref('gifstories').once('value').then(function (data) {
+                    self.gifstories = data.val();
+                });
+            }
+        })
+    </script>
+
+</body>
+
+</html>
